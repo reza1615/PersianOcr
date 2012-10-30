@@ -82,6 +82,11 @@ class SamplePage {
         var fontpx = parseInt(getComputedStyle(elements[0]).getPropertyValue('font-size')) * scale;
         var pageClasses = this.page[0].getAttribute('class');
         context.font = $('#style').val() + ' ' + fontpx + 'px ' + $('#font').val();
+        
+        var ishift = $('#ishift').val();
+        var iishift = $('#iishift').val();
+        var iiishift = $('#iiishift').val();
+        var ivshift = $('#ivshift').val();
 
         for (var i in elements) {
             var el = elements[i];
@@ -93,13 +98,13 @@ class SamplePage {
             var height = el.offsetHeight;
             var width = el.offsetWidth;
 
-            sb.push(left * scale);
+            sb.push((left * scale) + ishift);
             sb.push(' ');
-            sb.push((pheight - top) * scale);
+            sb.push(((pheight - top) * scale) + iishift);
             sb.push(' ');
-            sb.push((left + width) * scale);
+            sb.push(((left + width) * scale) + iiishift);
             sb.push(' ');
-            sb.push((pheight - (top + height)) * scale);
+            sb.push(((pheight - (top + height)) * scale) + ivshift);
             sb.push(' 0');
             sb.push('\n');
 

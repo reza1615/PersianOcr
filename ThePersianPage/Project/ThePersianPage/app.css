@@ -45,3 +45,11 @@
 p {
     margin: 0;
 }
+
+#canvas {
+    display: none;
+}
+
+input[type=number] {
+    width: 40px;
+}
