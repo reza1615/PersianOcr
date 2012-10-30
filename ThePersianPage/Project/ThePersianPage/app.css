@@ -41,3 +41,7 @@
 .italic {
     font-style: italic;
 }
+
+p {
+    padding: 0;
+}
