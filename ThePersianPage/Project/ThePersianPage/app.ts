@@ -100,11 +100,11 @@ class SamplePage {
 
             sb.push((left * scale) + ishift);
             sb.push(' ');
-            sb.push(((pheight - top) * scale) + iishift);
+            sb.push(((pheight - (top + height)) * scale) + iishift);
             sb.push(' ');
             sb.push(((left + width) * scale) + iiishift);
             sb.push(' ');
-            sb.push(((pheight - (top + height)) * scale) + ivshift);
+            sb.push(((pheight - top) * scale) + ivshift);
             sb.push(' 0');
             sb.push('\n');
 
