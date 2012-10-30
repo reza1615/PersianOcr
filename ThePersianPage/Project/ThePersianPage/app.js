@@ -68,10 +68,10 @@ var SamplePage = (function () {
         var fontpx = parseInt(getComputedStyle(elements[0]).getPropertyValue('font-size')) * scale;
         var pageClasses = this.page[0].getAttribute('class');
         context.font = $('#style').val() + ' ' + fontpx + 'px ' + $('#font').val();
-        var ishift = $('#ishift').val();
-        var iishift = $('#iishift').val();
-        var iiishift = $('#iiishift').val();
-        var ivshift = $('#ivshift').val();
+        var ishift = parseInt($('#ishift').val());
+        var iishift = parseInt($('#iishift').val());
+        var iiishift = parseInt($('#iiishift').val());
+        var ivshift = parseInt($('#ivshift').val());
         for(var i in elements) {
             var el = elements[i];
             sb.push(el.getAttribute('content'));
