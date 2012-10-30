@@ -69,23 +69,32 @@ var SamplePage = (function () {
         context.font = $('#style').val() + ' ' + fontpx + 'px ' + $('#font').val();
         for(var i in elements) {
             var el = elements[i];
+            sb.push(el.getAttribute('content'));
+            sb.push(' ');
             var left = el.offsetLeft - pleft;
             var top = el.offsetTop - ptop;
             var height = el.offsetHeight;
             var width = el.offsetWidth;
             sb.push(left * scale);
             sb.push(' ');
-            sb.push((top + height) * scale);
+            sb.push((pheight - (top)) * scale);
             sb.push(' ');
             sb.push((left + width) * scale);
             sb.push(' ');
-            sb.push(top * scale);
+            sb.push((pheight - (top + height)) * scale);
+            sb.push(' 0');
             sb.push('\n');
             context.fillText(el.getAttribute('content'), (left + width) * scale, (top + height) * scale);
         }
         context.save();
-        $('#boxes').val(sb.join(''));
-        document.getElementById('download').setAttribute('href', canvas.toDataURL("image/png"));
+        var boxes = sb.join('');
+        $('#boxes').val(boxes);
+        var pngDownload = document.getElementById('downloadPNG');
+        pngDownload.setAttribute('download', "per." + $('#font').val() + ".exp0.png");
+        pngDownload.setAttribute('href', canvas.toDataURL("image/png"));
+        var boxDownload = document.getElementById('downloadBOX');
+        boxDownload.setAttribute('download', "per." + $('#font').val() + ".exp0.box");
+        boxDownload.setAttribute('href', 'data:text/plain,' + boxes.replace(/\n/g, "%0A"));
     };
     return SamplePage;
 })();
