@@ -1,6 +1,6 @@
 **Welcome to PersianOCR Project**
 
-Here we will try to add Supporting Persian OCR  for [tesseract-ocr](http://code.google.com/p/tesseract-ocr/)
+In this Project we try to add Persian supporting  for [tesseract-ocr](http://code.google.com/p/tesseract-ocr/)
 
 **Tools**
 
