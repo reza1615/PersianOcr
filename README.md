@@ -4,7 +4,7 @@ In this Project we try to add Persian supporting  for [tesseract-ocr](http://cod
 
 **Tools**
 
-For making box file in a fast way you can use [Boxmaker](https://github.com/reza1615/PersianOcr/blob/master/BoxMaker-en.zip)
+For making box file in a fast way you can use [Boxmaker](http://reza1615.github.com/index.html)
 
 **RTL Languages**
 
@@ -21,7 +21,7 @@ For rtl (Right to Left) Languages after making unicharset For supporting rtl in 
 نشانی: https://github.com/reza1615/PersianOcr/wiki
 
 برای ساخت فایل باکس به روش سریع از ابزار 
-[جعبه ساز](https://github.com/reza1615/PersianOcr/blob/master/BoxMaker-per.zip)
+[جعبه ساز](http://reza1615.github.com/index.html)
 استفاده نمائید
 
 برای اصلاح راست به چپ بعد از ساخت فایل unicharset 
