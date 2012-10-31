@@ -1,0 +1,21 @@
+How it works?
+It is a html tool that runs with browsers you should type or copy a text in input text box.
+For running this code you should double click on default.htm file
+it will create box and image that are used for trainingdata training.
+it works with all of browsers but we suggest you for texts more than 13000 you should use Firefox because the other browsers will crash!
+Note:IE 9 is very slow don't use it!
+
+Huge Text
+Till 10000 words Chrome and firefox will create image from text but more that it you should use Firefox and it's screenshot extension (Awesome screenshot:Capture and annotate 2.3.7) after capturing screen you can crop image according to rectangle.
+Note:chrome for more than 10k words will crash (tested for Persian)
+
+Calibrating
+Unfortunately Chrome and Firefox doesn't have the same result (box file) on the same system! after making box you should create similar box with tesseract-ocr (it is not importnet that is supporting your language or not. only write tesseract example.tif example -l eng batch.nochop makebox ) and you should compaire the same character's  numbers (i.e. you can add $$$ at the first line of your text to finding similar characters) 
+you can use shift 1 , shift 2, shift 3, shift 4 text box for shifting all the boxes coordination for calibrating total boxes with image after pressing UPDATE your box will be prepared and you can use it.
+
+Options
+you can create box and image fore different languages (Right to left, Left to right, connected characters, compact texts, ZWNJ characters, Different fonts)
+
+Fonts
+By changing line 22 in default.html file you can add you font
+That's it!
