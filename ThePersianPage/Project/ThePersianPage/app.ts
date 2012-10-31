@@ -1,6 +1,5 @@
 /// <reference path="jquery.d.ts" />
 declare var html2canvas;
-declare var $;
 var zwnj = '\u200c';
 var alefba = 'آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئيك';
 var harekat = 'ًٌٍَُِّْٔ';
@@ -70,9 +69,9 @@ class SamplePage {
 
         var html = '<div>' + section + '</div>';
         
-        this.page.css('letter-spacing', $('#letterSpacing').val() + 'px');
-
         this.page.html(html);
+        $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
+
         this.page[0].style.fontSize = $('#fontSize').val() + 'px';
 
         var elements = $('.char', this.page).toArray();

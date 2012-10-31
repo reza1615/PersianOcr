@@ -62,8 +62,8 @@ var SamplePage = (function () {
         sb.push('</p>');
         var section = sb.join('');
         var html = '<div>' + section + '</div>';
-        this.page.css('letter-spacing', $('#letterSpacing').val() + 'px');
         this.page.html(html);
+        $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
         this.page[0].style.fontSize = $('#fontSize').val() + 'px';
         var elements = $('.char', this.page).toArray();
         var sb = [];
