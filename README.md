@@ -23,6 +23,7 @@ After making unicharset For training [tesseract-ocr](http://code.google.com/p/te
 استفاده نمائید
 
 برای اصلاح راست به چپ بعد از ساخت فایل unicharset 
+کد 
 [convertor.py](https://github.com/reza1615/PersianOcr/blob/master/convertor.py)
 را اجرا نمائید توجه داشته باشید که برای اجرای فایل باید پایتون بر روی سیستم شما نصب باشد.
 
