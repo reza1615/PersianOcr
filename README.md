@@ -8,7 +8,7 @@ For making box file in a fast way you can use [Boxmaker](https://github.com/reza
 
 **RTL Languages**
 
-After making unicharset For training [tesseract-ocr](http://code.google.com/p/tesseract-ocr/) for rtl (Right to Left) Languages you can use [convertor.py](https://github.com/reza1615/PersianOcr/blob/master/convertor.py)
+For rtl (Right to Left) Languages after making unicharset For supporting rtl in [tesseract-ocr](http://code.google.com/p/tesseract-ocr/)  you can run [convertor.py](https://github.com/reza1615/PersianOcr/blob/master/convertor.py). this code needs python
 
 <div dir="rtl">
 **به پروژه OCR Farsi خوش آمدید!**
