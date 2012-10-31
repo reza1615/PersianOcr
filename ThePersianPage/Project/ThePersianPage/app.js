@@ -2,6 +2,7 @@ var zwnj = '\u200c';
 var alefba = 'آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئيك';
 var harekat = 'ًٌٍَُِّْٔ';
 var notJoinableToNext = 'ةآأإادذرزژو';
+var zwj = '\u200d';
 function isAlefba(char) {
     return alefba.indexOf(char) !== -1;
 }
@@ -21,6 +22,8 @@ var SamplePage = (function () {
         var id = 0;
         var nextMustJoined = false;
         sb.push('<p>');
+        var extraSpace = ($('#extraSpace')[0]).checked ? ' ' : '';
+        var letterByLetter = ($('#letterByLetter')[0]).checked;
         for(var i = 0; i < chars.length; i++) {
             var char = chars[i];
             var nextChar = chars[i + 1];
@@ -30,11 +33,17 @@ var SamplePage = (function () {
                 if(char === ' ' || char === zwnj) {
                     sb.push(char);
                 } else {
-                    sb.push('<span class="char">');
-                    sb.push(char);
+                    var isb = [];
+                    isb.push(char);
                     while(true) {
                         if((isHarekat(nextChar)) || (isJoinableToNext(char) && isAlefba(nextChar))) {
-                            sb.push(nextChar);
+                            if(letterByLetter && !isHarekat(nextChar)) {
+                                isb.push(zwj);
+                                isb.push('</span>');
+                                isb.push('<span class="char">');
+                                isb.push(zwj);
+                            }
+                            isb.push(nextChar);
                             i++;
                             char = chars[i];
                             nextChar = chars[i + 1];
@@ -42,13 +51,18 @@ var SamplePage = (function () {
                             break;
                         }
                     }
+                    console.log(isb.join(''));
+                    sb.push('<span class="char">');
+                    sb.push(isb.join(''));
                     sb.push('</span>');
+                    sb.push(extraSpace);
                 }
             }
         }
         sb.push('</p>');
         var section = sb.join('');
         var html = '<div>' + section + '</div>';
+        this.page.css('letter-spacing', $('#letterSpacing').val() + 'px');
         this.page.html(html);
         this.page[0].style.fontSize = $('#fontSize').val() + 'px';
         var elements = $('.char', this.page).toArray();
@@ -104,6 +118,9 @@ var SamplePage = (function () {
             context.save();
         }
         var boxes = sb.join('');
+        if(($('#removeZwj')[0]).checked) {
+            boxes = boxes.replace(/\u200d/g, "");
+        }
         $('#boxes').val(boxes);
         var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
         if(!huge) {
