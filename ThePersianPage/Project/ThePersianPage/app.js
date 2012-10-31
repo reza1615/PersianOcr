@@ -94,12 +94,13 @@ var SamplePage = (function () {
         context.save();
         var boxes = sb.join('');
         $('#boxes').val(boxes);
+        var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
         var pngDownload = document.getElementById('downloadPNG');
-        pngDownload.setAttribute('download', "per." + $('#font').val() + ".exp0.png");
+        pngDownload.setAttribute('download', "per." + fontFileName + ".exp0.png");
         pngDownload.setAttribute('href', canvas.toDataURL("image/png"));
         var boxDownload = document.getElementById('downloadBOX');
-        boxDownload.setAttribute('download', "per." + $('#font').val() + ".exp0.box");
-        boxDownload.setAttribute('href', 'data:text/plain,' + boxes.replace(/\n/g, "%0A"));
+        boxDownload.setAttribute('download', "per." + fontFileName + ".exp0.box");
+        boxDownload.setAttribute('href', 'data:text/plain;charset=utf-8,' + boxes.replace(/\n/g, "%0A"));
     };
     return SamplePage;
 })();
