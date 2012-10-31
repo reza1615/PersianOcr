@@ -1,5 +1,6 @@
 /// <reference path="jquery.d.ts" />
 declare var html2canvas;
+declare var $;
 var zwnj = '\u200c';
 var alefba = 'آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئيك';
 var harekat = 'ًٌٍَُِّْٔ';
@@ -36,14 +37,11 @@ class SamplePage {
             } else if (char === ' ' || char === zwnj) {
                 sb.push(char);
             } else {
-                var before = '';
-                var content = [];
-                var after = '';
-
-                content.push(char);
+                sb.push('<span class="char">');
+                sb.push(char);
                 while (true) {
                     if ((isHarekat(nextChar)) || (isJoinableToNext(char) && isAlefba(nextChar))) {
-                        content.push(nextChar);
+                        sb.push(nextChar);
                         i++;
                         char = chars[i];
                         nextChar = chars[i + 1];
@@ -51,10 +49,8 @@ class SamplePage {
                         break;
                     }
                 }
+                sb.push('</span>');
 
-                sb.push('<span class="char" id="ch' + id + '" content="' + content.join('') + '">' + before
-                    + content.join('') + after + "</span>");
-                
             }
         }
         sb.push('</p>');
@@ -62,7 +58,8 @@ class SamplePage {
 
         var html = '<div>' + section + '</div>';
         this.page.html(html);
-        
+        this.page[0].style.fontSize = $('#fontSize').val() + 'px';
+
         var elements = $('.char', this.page).toArray();
         var sb = [];
 
@@ -73,28 +70,35 @@ class SamplePage {
 
         var scale = $('#scale').val();
 
-        var canvas = <HTMLCanvasElement>document.getElementById('canvas');
-        canvas.height = pheight * scale;
-        canvas.width = pwidth * scale;
-        var context = canvas.getContext('2d');
+        var huge = (<HTMLInputElement>$('#huge')[0]).checked;
 
-        context.fillStyle = 'white';
-        context.fillRect(0, 0, canvas.width, canvas.height);
+        if (!huge) {
+            var canvas = <HTMLCanvasElement>document.getElementById('canvas');
+            canvas.height = pheight * scale;
+            canvas.width = pwidth * scale;
+            var context = canvas.getContext('2d');
 
-        context.textBaseline = 'bottom';
-        context.fillStyle = 'black';
+            context.fillStyle = 'white';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            context.textBaseline = 'bottom';
+            context.fillStyle = 'black';
+        }
         var fontpx = parseInt(getComputedStyle(elements[0]).getPropertyValue('font-size')) * scale;
         var pageClasses = this.page[0].getAttribute('class');
-        context.font = $('#style').val() + ' ' + fontpx + 'px ' + $('#font').val();
-        
+        if (!huge) {
+            context.font = $('#style').val() + ' ' + fontpx + 'px ' + $('#font').val();
+        }
+
         var ishift = parseInt($('#ishift').val());
         var iishift = parseInt($('#iishift').val());
         var iiishift = parseInt($('#iiishift').val());
         var ivshift = parseInt($('#ivshift').val());
 
         for (var i in elements) {
-            var el = elements[i];
-            sb.push(el.getAttribute('content'));
+            var el = <HTMLElement>elements[i];
+            var elcontent = el.innerHTML;
+            sb.push(elcontent);
             sb.push(' ');
 
             var left = el.offsetLeft - pleft;
@@ -112,34 +116,39 @@ class SamplePage {
             sb.push(' 0');
             sb.push('\n');
 
-            context.fillText(el.getAttribute('content'), (left + width) * scale, (top + height) * scale);
+            if (!huge) {
+                context.fillText(elcontent, (left + width) * scale, (top + height) * scale);
+            }
         }
-        context.save();
+        if (!huge) {
+            context.save();
+        }
         var boxes = sb.join('');
         $('#boxes').val(boxes);
-        
+
         var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
+        if (!huge) {
+            var pngDownload = document.getElementById('downloadPNG');
+            pngDownload.setAttribute('download', "per." + fontFileName + ".exp0.png");
+            pngDownload.setAttribute('href', canvas.toDataURL("image/png"));
 
-        var pngDownload = document.getElementById('downloadPNG');
-        pngDownload.setAttribute('download', "per." + fontFileName + ".exp0.png");
-        pngDownload.setAttribute('href', canvas.toDataURL("image/png"));
-
-        var boxDownload = document.getElementById('downloadBOX');
-        boxDownload.setAttribute('download', "per." + fontFileName + ".exp0.box");
-        boxDownload.setAttribute('href', 'data:text/plain;charset=utf-8,' + boxes.replace(/\n/g, "%0A"));
+            var boxDownload = document.getElementById('downloadBOX');
+            boxDownload.setAttribute('download', "per." + fontFileName + ".exp0.box");
+            boxDownload.setAttribute('href', 'data:text/plain;charset=utf-8,' + boxes.replace(/\n/g, "%0A"));
+        }
     }
 
 }
 
-window.onload = () => {
+document.addEventListener('DOMContentLoaded', () => {
     $('#button').click(() => {
         var t = $('textarea#inputText');
         var p = $('div#page');
-        
+
         p.removeClass('nazli arial tahoma').addClass($('#font').val());
         p.removeClass('bold italic').addClass($('#style').val());
 
         var page = new SamplePage(p);
         page.insert(t.val());
     }).click();
-};
+});

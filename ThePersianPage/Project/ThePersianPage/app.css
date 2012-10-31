@@ -1,16 +1,9 @@
 ﻿body {
     font-family: 'Segoe UI', 'Tahoma', sans-serif;
-    height: 100%;
-    width: 100%;
-    background-color: blueviolet;
 }
 
 #wrapper {
     background-color: white;
-    width: 700px;
-    margin: 0 auto;
-    padding: 50px;
-    border-radius: 40px;
 }
 
 .tahoma {
@@ -52,4 +45,9 @@ p {
 
 input[type=number] {
     width: 40px;
+}
+
+#page {
+    border: 1px solid black;
+    padding: 1px;
 }
