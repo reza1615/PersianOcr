@@ -77,6 +77,10 @@ class SamplePage {
         canvas.height = pheight * scale;
         canvas.width = pwidth * scale;
         var context = canvas.getContext('2d');
+
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
         context.textBaseline = 'bottom';
         context.fillStyle = 'black';
         var fontpx = parseInt(getComputedStyle(elements[0]).getPropertyValue('font-size')) * scale;
