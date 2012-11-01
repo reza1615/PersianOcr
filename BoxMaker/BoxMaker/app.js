@@ -18,6 +18,8 @@ var SamplePage = (function () {
     }
     SamplePage.prototype.insert = function (input) {
         var chars = input;
+        var parts = {
+        };
         var sb = [];
         var id = 0;
         var nextMustJoined = false;
@@ -34,16 +36,23 @@ var SamplePage = (function () {
                     sb.push(char);
                 } else {
                     var isb = [];
+                    id++;
+                    isb.push('<span class="char" uid="' + id + '">');
                     isb.push(char);
+                    parts[id] = char;
                     while(true) {
                         if((isHarekat(nextChar)) || (isJoinableToNext(char) && isAlefba(nextChar))) {
                             if(letterByLetter && !isHarekat(nextChar)) {
                                 isb.push(zwj);
                                 isb.push('</span>');
-                                isb.push('<span class="char">');
+                                parts[id] = parts[id] + zwj;
+                                id++;
+                                isb.push('<span class="char" uid="' + id + '">');
                                 isb.push(zwj);
+                                parts[id] = zwj;
                             }
                             isb.push(nextChar);
+                            parts[id] = parts[id] + nextChar;
                             i++;
                             char = chars[i];
                             nextChar = chars[i + 1];
@@ -51,9 +60,8 @@ var SamplePage = (function () {
                             break;
                         }
                     }
-                    sb.push('<span class="char">');
+                    isb.push('</span>');
                     sb.push(isb.join(''));
-                    sb.push('</span>');
                     sb.push(extraSpace);
                 }
             }
@@ -65,6 +73,8 @@ var SamplePage = (function () {
         $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
         this.page.css('line-height', $('#lineHeight').val() + 'px');
         var direction = (document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
+        $('body').attr('dir', direction);
+        $('#wrapper').css('direction', 'ltr');
         this.page.css('direction', direction);
         $('#canvasWrapper').css('direction', direction);
         this.page[0].style.fontSize = $('#fontSize').val() + 'px';
@@ -97,7 +107,7 @@ var SamplePage = (function () {
         var ivshift = parseInt($('#ivshift').val());
         for(var i in elements) {
             var el = elements[i];
-            var elcontent = el.innerHTML;
+            var elcontent = parts[el.getAttribute('uid')];
             sb.push(elcontent);
             sb.push(' ');
             var left = el.offsetLeft - pleft;
