@@ -1,66 +1,74 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en" dir="rtl" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>جعبه ساز</title>
+    <title>BoxMaker</title>
     <link rel="stylesheet" href="app.css" type="text/css" />
     <script src="jquery-1.8.2.min.js"></script>
+    <script src="canvas2image.js"></script>
     <script src="app.js"></script>
 </head>
 <body>
     <div id="wrapper">
-        <h1>جعبه ساز</h1>
+        <h1>BoxMaker</h1>
 
         <div id="content">
             <div class="label">The sample text:</div>
-            <textarea id="inputText">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می‌باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می‌طلبد تا با نرم افزارها شناخت بیستری را برای طراحان رایانه‌ای و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می‌توان امید داشت که تمام و دشواری موجود در ارائهٔ راهکارها و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروف‌چینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساساً مورد استفاده قرار گیرد.</textarea>
+            <textarea id="inputText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</textarea>
             <br />
-            <div dir="ltr">
-                <div class="label">Font:</div>
-                <select id="font">
-                    <option value="nazli">Nazli</option>
-                    <option value="tahoma">Tahoma</option>
-                    <option value="arial">Arial</option>
-                    <option value="zar">Zar</option>
-                    <option value="koodak">Koodak</option>
-                    <option value="titr">Titr</option>
-                    <option value="lotus">Lotus</option>
-                    <option value="elham">Elham</option>
-                    <option value="homa">Homa</option>
-                    <option value="yagout">Yaghout</option>
-                    <option value="roya">Roya</option>
-                    <option value="zar">Zar</option>
-                </select>
-                <select id="style">
-                    <option value="">Normal</option>
-                    <option value="bold">Bold</option>
-                    <option value="italic">Italic</option>
-                    <option value="bold italic">Bold + Italic</option>
-                </select>
+            <div class="label">Font:</div>
+            <input id="font" value="tahoma" />
+            <select id="style">
+                <option value="">Normal</option>
+                <option value="bold">Bold</option>
+                <option value="italic">Italic</option>
+                <option value="bold italic">Bold + Italic</option>
+            </select>
+            <br />
+            Font size:
+            <input type="number" value="24" id="fontSize" />px
                 <br />
-                Font size: <input type="number" value="24" id="fontSize" />px
+            Scale of image:
+            <input type="number" value="1" id="scale" />x
                 <br />
-                Scale of image: <input type="number" value="1" id="scale" />x
+            Shift1:
+            <input type="number" value="0" id="ishift" />
+            Shift2:
+            <input type="number" value="0" id="iishift" />
+            Shift3:
+            <input type="number" value="0" id="iiishift" />
+            Shift4:
+            <input type="number" value="0" id="ivshift" />
+            <br />
+            <input type="checkbox" id="rtlMode" name="rtlMode" /><label for="rtlMode">RTL text</label>
+            <br />
+            <input type="checkbox" id="huge" name="huge" /><label for="huge">HUGE input text! (more than 10k words)</label>
+            <br />
+            <input type="checkbox" id="extraSpace" name="extraSpace" /><label for="extraSpace">Extra space!</label>
+            <br />
+            <input type="checkbox" checked="checked" id="letterByLetter" name="letterByLetter" /><label for="letterByLetter">Letter by letter</label>
+            <br />
+            <input type="checkbox" checked="checked" id="removeZwj" name="removeZwj" /><label for="removeZwj">Remove the ZWJs from boxes</label>
+            <br />
+            Space between the letters:
+            <input type="number" value="0" id="letterSpacing" />px
                 <br />
-                Shift1: <input type="number" value="0" id="ishift" />
-                Shift2: <input type="number" value="0" id="iishift" />
-                Shift3: <input type="number" value="0" id="iiishift" />
-                Shift4: <input type="number" value="0" id="ivshift" />
-                <br /><input type="checkbox" checked="checked" id="huge" name="huge" /><label for="huge">HUGE!</label>
-                <br /><input type="checkbox" id="extraSpace" name="extraSpace" /><label for="extraSpace">Extra Space!</label>
-                <br /><input type="checkbox" checked="checked" id="letterByLetter" name="letterByLetter" /><label for="letterByLetter">Letter by letter!</label>
-                <br /><input type="checkbox" checked="checked" id="removeZwj" name="removeZwj" /><label for="removeZwj">Remove the ZWJs from boxes!</label>
-                <br />Space Between Letters: <input type="number" value="0" id="letterSpacing" />px
-                <br /><button id="button">Update!</button>
+            Height of the lines:
+            <input type="number" value="40" id="lineHeight" />px
                 <br />
-                <br />
-                Download: <a id="downloadPNG">Image</a> | <a id="downloadBOX">Box</a>
-            </div>
+            <button id="button">Update!</button>
+            <br />
+            <br />
+            Download: <a id="downloadPNG">Image</a> | <a id="downloadBOX">Box</a>
             <div id="page"></div>
             <textarea id="boxes" dir="ltr"></textarea>
 
-            <canvas id="canvas"></canvas>
+            <div id="canvasWrapper">
+                <canvas id="canvas"></canvas>
+            </div>
+
+            <div id="imagePlaceHolder"></div>
         </div>
     </div>
 </body>
