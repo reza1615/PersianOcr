@@ -9,74 +9,69 @@
     <script src="app.js"></script>
 </head>
 <body>
-    <div id="wrapper">
-        <h1>BoxMaker</h1>
+    <div id="notes">
+        <h2>Some Important points:</h2>
+        <ol>
+            <li>We suggest you to use chrome as a browser because it is faster that the others and it's images are sharper than Firefox 16 or IE9.</li>
+            <li>For image if your text is more that 2000 word this tool can not give you directly image file and you should use screen capture extensions(Google's extension) that is works for texts less than 10K words</li>
+            <li>Before doing large texts please test tesseract-ocr with small texts (box, Image) with different font size because it only has good result for specific font size and it's warnings are different for different fonts!</li>
+            <li>should be 400-450 Dpi so you should Change your Image's Dpi & size (cm) <b>without changing total pixel size number!</b> (in Photoshop > image size). Re-save your file with AcdSee to have compatible Tiff File!</li>
+        </ol>
+    </div>
+    <h1>BoxMaker</h1>
 
-        <div id="content">
-
-            <p>This tool will help you to making box and image file. You should write your text in box below after pressing upload you will have box in the second box filed.</p>
-            <h2>Some Important points:</h2>
-            <ol>
-                <li>We suggest you to use chrome as a browser because it is faster that the others and it's images are sharper than Firefox 16 or IE9.</li>
-                <li>For image if your text is more that 2000 word this tool can not give you directly image file and you should use screen capture extensions(Google's extension) that is works for texts less than 10K words</li>
-                <li>Before doing large texts please test tesseract-ocr with small texts (box, Image) with different font size because it only has good result for specific font size and it's warnings are different for different fonts!</li>
-                <li>should be 400-450 Dpi so you should Change your Image's Dpi & size (cm) <b>without changing total pixel size number!</b> (in Photoshop > image size). Re-save your file with AcdSee to have compatible Tiff File!</li>
-            </ol>
-
-            <h2>The text:</h2>
-            <textarea id="inputText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</textarea>
-            <br />
-            <div class="label">Font:</div>
-            <input id="font" value="tahoma" />
-            <select id="style">
-                <option value="">Normal</option>
-                <option value="bold">Bold</option>
-                <option value="italic">Italic</option>
-                <option value="bold italic">Bold + Italic</option>
-            </select>
-            <br />
-            Font size:
-            <input type="number" value="24" id="fontSize" />px
+    <p>This tool will help you to making box and image file. You should write your text in box below after pressing upload you will have box in the second box filed.</p>
+    <h2>The text:</h2>
+    <textarea id="inputText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</textarea>
+    <br />
+    <input type="checkbox" id="rtlMode" name="rtlMode" /><label for="rtlMode">RTL text</label>
+    <br />
+    <div class="label">Font:</div>
+    <input id="font" value="tahoma" />
+    <select id="style">
+        <option value="">Normal</option>
+        <option value="bold">Bold</option>
+        <option value="italic">Italic</option>
+        <option value="bold italic">Bold + Italic</option>
+    </select>
+    <br />
+    Font size:
+            <input type="number" value="40" id="fontSize" />px
                 <br />
-            Scale of image:
-            <input type="number" value="1" id="scale" />x
                 <br />
-            Shift1:
+
+    <big>Calibrating Boxses Coordinations:</big>
+    <br />
+    Column 1:
             <input type="number" value="0" id="ishift" />
-            Shift2:
+    Column 2:
             <input type="number" value="0" id="iishift" />
-            Shift3:
+    Column 3:
             <input type="number" value="0" id="iiishift" />
-            Shift4:
+    Column 4:
             <input type="number" value="0" id="ivshift" />
-            <br />
-            <input type="checkbox" id="rtlMode" name="rtlMode" /><label for="rtlMode">RTL text</label>
-            <br />
-            <input type="checkbox" id="huge" name="huge" /><label for="huge">HUGE input text! (more than 10k words)</label>
-            <br />
-            <input type="checkbox" id="extraSpace" name="extraSpace" /><label for="extraSpace">Extra space!</label>
-            <br />
-            <input type="checkbox" checked="checked" id="letterByLetter" name="letterByLetter" /><label for="letterByLetter">Letter by letter</label>
-            <br />
-            <input type="checkbox" checked="checked" id="removeZwj" name="removeZwj" /><label for="removeZwj">Remove the ZWJs from boxes</label>
-            <br />
-            Space between the letters:
+    Column 5: (Page Number)
+            <input type="number" value="0" id="Number1" />
+    <br />
+    <input type="checkbox" id="letterByLetter" name="letterByLetter" /><label for="letterByLetter">Letter by letter</label>
+    <br />
+    <input type="checkbox" checked="checked" id="removeZwj" name="removeZwj" /><label for="removeZwj">Remove the ZWJs from boxes</label>
+    <br />
+    Space between the letters:
             <input type="number" value="0" id="letterSpacing" />px
                 <br />
-            Height of the lines:
-            <input type="number" value="40" id="lineHeight" />px
-                <br />
-            <button id="button">Update!</button>
-            <br />
-            <br />
-            Download: <a id="downloadPNG">Image</a> | <a id="downloadBOX">Box</a>
-            <div id="page"></div>
-            <textarea id="boxes" dir="ltr"></textarea>
+    Height of the lines:
+            <input type="number" value="1.5" id="lineHeight" />
+    <br />
+    <button id="button">Save!</button>
+    <br />
+    <br />
+    <div id="pageWrapper">
+        <div id="page"></div>
+    </div>
 
-            <div id="canvasWrapper">
-                <canvas id="canvas"></canvas>
-            </div>
-        </div>
+    <div id="canvasWrapper">
+        <canvas id="canvas"></canvas>
     </div>
 </body>
 </html>

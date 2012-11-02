@@ -47,8 +47,17 @@ input[type=number] {
     width: 40px;
 }
 
-#page {
-    border: 1px solid black;
-    padding: 5px;
+#notes {
+    font-size: smaller;
+    float: right;
+    width: 40%;
 }
 
+#pageWrapper {
+    overflow: hidden;
+    height: 1px;
+}
+
+#page {
+    display: block;
+}

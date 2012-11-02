@@ -35,8 +35,6 @@ http.createServer(function (request, response) {
                 fs.writeFile(targetPath, data, function (err) {
                     if (err) {
                         console.log(err);
-                    } else {
-                        console.log("The file was saved!");
                     }
                 });
                 
