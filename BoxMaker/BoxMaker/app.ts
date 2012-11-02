@@ -144,19 +144,18 @@ class Main {
         var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
         var pngData = canvas.toDataURL("image/png");
         pngData = pngData.replace('data:image/png;base64,', '');
+
         $.ajax('api/uploadbinary/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.png', {
             type: 'POST',
             data: pngData,
             dataType: 'text'
         });
 
-        var boxDownload = document.getElementById('downloadBOX');
         $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.box', {
             type: 'POST',
             data: boxes,
             dataType: 'text'
         });
-
     }
 
 }
@@ -168,27 +167,24 @@ document.addEventListener('DOMContentLoaded', () => {
         var main = new Main();
 
         var splitter = ' ';
-        var paragraphs: string[] = $('#inputText').val().split(' ');
+        var parts: string[] = $('#inputText').val().split(' ');
         var limit: number = $("#limit").val() * 1000;
 
         var page: string[] = [];
         var size: number = 0;
         var pageId: number = 0;
-        for (var i = 0; i < paragraphs.length; i++) {
-            console.log(size, limit, paragraphs, page);
-            if (size < limit) {
-                page.push(paragraphs[i]);
-                size = size + paragraphs[i].length;
+
+        var results = [];
+        for (var i = 0; i < parts.length; i++) {
+            if (size <= limit) {
+                page.push(parts[i]);
+                size = size + parts[i].length;
             }
-            if (size > limit) {
+            if (size > limit || (i + 1 === parts.length && size !== 0)) {
                 main.insert(page.join(' '), pageId);
                 pageId++;
                 page = [];
                 size = 0;
-            }
-            if (i + 1 === paragraphs.length && size !== 0) {
-                main.insert(page.join(' '), pageId);
-                break;
             }
         }
     }).click();

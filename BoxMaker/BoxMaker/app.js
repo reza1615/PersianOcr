@@ -120,7 +120,6 @@ var Main = (function () {
             data: pngData,
             dataType: 'text'
         });
-        var boxDownload = document.getElementById('downloadBOX');
         $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.box', {
             type: 'POST',
             data: boxes,
@@ -134,26 +133,23 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#page').removeClass('bold italic').addClass($('#style').val());
         var main = new Main();
         var splitter = ' ';
-        var paragraphs = $('#inputText').val().split(' ');
+        var parts = $('#inputText').val().split(' ');
         var limit = $("#limit").val() * 1000;
         var page = [];
         var size = 0;
         var pageId = 0;
-        for(var i = 0; i < paragraphs.length; i++) {
-            console.log(size, limit, paragraphs, page);
-            if(size < limit) {
-                page.push(paragraphs[i]);
-                size = size + paragraphs[i].length;
+        var results = [];
+        for(var i = 0; i < parts.length; i++) {
+            console.log(size, limit, i);
+            if(size <= limit) {
+                page.push(parts[i]);
+                size = size + parts[i].length;
             }
-            if(size > limit) {
+            if(size > limit || (i + 1 === parts.length && size !== 0)) {
                 main.insert(page.join(' '), pageId);
                 pageId++;
                 page = [];
                 size = 0;
-            }
-            if(i + 1 === paragraphs.length && size !== 0) {
-                main.insert(page.join(' '), pageId);
-                break;
             }
         }
     }).click();
