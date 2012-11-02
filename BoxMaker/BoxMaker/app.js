@@ -24,7 +24,6 @@ var SamplePage = (function () {
         var id = 0;
         var nextMustJoined = false;
         sb.push('<p>');
-        var letterByLetter = ($('#letterByLetter')[0]).checked;
         for(var i = 0; i < chars.length; i++) {
             var char = chars[i];
             var nextChar = chars[i + 1];
@@ -41,15 +40,6 @@ var SamplePage = (function () {
                     parts[id] = char;
                     while(true) {
                         if((isHarekat(nextChar)) || (isJoinableToNext(char) && isAlefba(nextChar))) {
-                            if(letterByLetter && !isHarekat(nextChar)) {
-                                isb.push(zwj);
-                                isb.push('</span>');
-                                parts[id] = parts[id] + zwj;
-                                id++;
-                                isb.push('<span class="char" uid="' + id + '">');
-                                isb.push(zwj);
-                                parts[id] = zwj;
-                            }
                             isb.push(nextChar);
                             parts[id] = parts[id] + nextChar;
                             i++;
@@ -69,7 +59,7 @@ var SamplePage = (function () {
         var html = '<div>' + section + '</div>';
         this.page.html(html);
         $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
-        this.page.css('line-height', $('#lineHeight').val() + 'px');
+        this.page.css('line-height', $('#lineHeight').val());
         var direction = (document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
         this.page.css('direction', direction);
         $('#canvasWrapper').css('direction', direction);
@@ -80,22 +70,22 @@ var SamplePage = (function () {
         var pleft = this.page[0].offsetLeft;
         var pheight = this.page[0].offsetHeight;
         var pwidth = this.page[0].offsetWidth;
-        var scale = $('#scale').val();
         var canvas = document.getElementById('canvas');
-        canvas.height = pheight * scale;
-        canvas.width = pwidth * scale;
+        canvas.height = pheight;
+        canvas.width = pwidth;
         var context = canvas.getContext('2d');
         context.fillStyle = 'white';
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.textBaseline = 'bottom';
         context.fillStyle = 'black';
-        var fontpx = parseInt(getComputedStyle(elements[0]).getPropertyValue('font-size')) * scale;
+        var fontpx = parseInt(getComputedStyle(elements[0]).getPropertyValue('font-size'));
         var pageClasses = this.page[0].getAttribute('class');
         context.font = $('#style').val() + ' ' + fontpx + 'px ' + $('#font').val();
         var ishift = parseInt($('#ishift').val());
         var iishift = parseInt($('#iishift').val());
         var iiishift = parseInt($('#iiishift').val());
         var ivshift = parseInt($('#ivshift').val());
+        var pageNum = parseInt($('#pageNum').val());
         for(var i in elements) {
             var el = elements[i];
             var elcontent = parts[el.getAttribute('uid')];
@@ -105,23 +95,22 @@ var SamplePage = (function () {
             var top = el.offsetTop - ptop;
             var height = el.offsetHeight;
             var width = el.offsetWidth;
-            sb.push((left * scale) + ishift);
+            sb.push(left + ishift);
             sb.push(' ');
-            sb.push(((pheight - (top + height)) * scale) + iishift);
+            sb.push(pheight - (top + height) + iishift);
             sb.push(' ');
-            sb.push(((left + width) * scale) + iiishift);
+            sb.push(left + width + iiishift);
             sb.push(' ');
-            sb.push(((pheight - top) * scale) + ivshift);
-            sb.push(' 0');
+            sb.push(pheight - top + ivshift);
+            sb.push(' ');
+            sb.push(pageNum);
             sb.push('\n');
             var lleft = direction === 'ltr' ? left : left + width;
-            context.fillText(elcontent, lleft * scale, (top + height) * scale);
+            context.fillText(elcontent, lleft, (top + height));
         }
         context.save();
         var boxes = sb.join('');
-        if(($('#removeZwj')[0]).checked) {
-            boxes = boxes.replace(/\u200d/g, "");
-        }
+        boxes = boxes.replace(/\u200d/g, "");
         $('#boxes').val(boxes);
         var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
         var pngData = canvas.toDataURL("image/png");

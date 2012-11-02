@@ -1,6 +1,4 @@
 /// <reference path="jquery.d.ts" />
-declare var html2canvas;
-declare var unescape;
 var zwnj = '\u200c';
 var alefba = 'آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئيك';
 var harekat = 'ًٌٍَُِّْٔ';
@@ -30,7 +28,6 @@ class SamplePage {
         var id = 0;
         var nextMustJoined = false;
         sb.push('<p>');
-        var letterByLetter = (<HTMLInputElement>$('#letterByLetter')[0]).checked;
         for (var i = 0; i < chars.length; i++) {
             var char = chars[i];
             var nextChar = chars[i + 1];
@@ -47,7 +44,7 @@ class SamplePage {
                 parts[id] = char;
                 while (true) {
                     if ((isHarekat(nextChar)) || (isJoinableToNext(char) && isAlefba(nextChar))) {
-                        if (letterByLetter && !isHarekat(nextChar)) {
+                        /*if (letterByLetter && !isHarekat(nextChar)) {
                             isb.push(zwj);
                             isb.push('</span>');
                             parts[id] = parts[id] + zwj;
@@ -56,7 +53,7 @@ class SamplePage {
                             isb.push('<span class="char" uid="' + id + '">');
                             isb.push(zwj);
                             parts[id] = zwj;
-                        }
+                        } */
                         isb.push(nextChar);
                         parts[id] = parts[id] + nextChar;
                         i++;
@@ -78,7 +75,7 @@ class SamplePage {
 
         this.page.html(html);
         $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
-        this.page.css('line-height', $('#lineHeight').val() + 'px');
+        this.page.css('line-height', $('#lineHeight').val());
 
         var direction = (<HTMLInputElement>document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
 
@@ -113,7 +110,7 @@ class SamplePage {
         var iishift = parseInt($('#iishift').val());
         var iiishift = parseInt($('#iiishift').val());
         var ivshift = parseInt($('#ivshift').val());
-        var page = parseInt($('#pageNum').val());
+        var pageNum = parseInt($('#pageNum').val());
 
         for (var i in elements) {
             var el = <HTMLElement>elements[i];
@@ -134,16 +131,16 @@ class SamplePage {
             sb.push(left + width + iiishift);
             sb.push(' ');
             sb.push(pheight - top + ivshift);
-            sb.push(' 0');
+            sb.push(' ');
+            sb.push(pageNum);
             sb.push('\n');
 
             var lleft = direction === 'ltr' ? left : left + width;
-            context.fillText(elcontent, lleft * scale, (top + height) * scale);
+            context.fillText(elcontent, lleft, (top + height));
         }
         context.save();
         var boxes = sb.join('');
-        if ((<HTMLInputElement>$('#removeZwj')[0]).checked)
-            boxes = boxes.replace(/\u200d/g, "");
+        boxes = boxes.replace(/\u200d/g, "");
 
         $('#boxes').val(boxes);
 
