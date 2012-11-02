@@ -12,7 +12,7 @@
     <div id="notes">
         <h2>Some Important notes:</h2>
         <ol>
-            <li>We suggest you to use <a href="http://google.com/chrome">Chrome</a> because it is faster that the others and it's images are sharper than Firefox 16 or IE9.</li>
+            <li>We suggest you to use <a href="http://google.com/chrome">Chrome</a> because it is faster than the others and it's images are sharper than Firefox 16 or IE9.</li>
             <li>Before doing large texts please test tesseract-ocr with small texts (box, Image) with different font size because it only has good result for specific font size and it's warnings are different for different fonts!</li>
             <li>Should be 400-450 Dpi so you should Change your Image's Dpi & size (cm) <b>without changing total pixel size number!</b> (in Photoshop > image size). Re-save your file with AcdSee to have compatible Tiff File!</li>
         </ol>
@@ -24,6 +24,9 @@
     <textarea id="inputText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</textarea>
     <br />
     <input type="checkbox" id="rtlMode" name="rtlMode" /><label for="rtlMode">RTL text</label>
+    <br />
+    <div class="label"><a href="http://www.sil.org/iso639-3/codes.asp">ISO 639-3</a> language code:</div>
+    <input id="languageCode" value="eng" />
     <br />
     <div class="label">Font:</div>
     <input id="font" value="tahoma" />
@@ -54,9 +57,11 @@
             <input type="number" value="0" id="iiishift" />
     Column 4:
             <input type="number" value="0" id="ivshift" />
-    Column 5: (Page Number)
-            <input type="number" value="0" id="pageNum" />
     <br />
+    <br />
+
+    Pages Limit:
+    <input type="number" value="20" id="limit" />kb
 
     <button id="button">Save!</button>
     <br />

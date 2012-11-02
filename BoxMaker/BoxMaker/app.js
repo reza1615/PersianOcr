@@ -12,11 +12,10 @@ function isJoinableToNext(char) {
 function isHarekat(char) {
     return harekat.indexOf(char) !== -1;
 }
-var SamplePage = (function () {
-    function SamplePage(page) {
-        this.page = page;
-    }
-    SamplePage.prototype.insert = function (input) {
+var Main = (function () {
+    function Main() { }
+    Main.prototype.insert = function (input, pageId) {
+        var page = $('#page');
         var chars = input;
         var parts = {
         };
@@ -57,19 +56,20 @@ var SamplePage = (function () {
         sb.push('</p>');
         var section = sb.join('');
         var html = '<div>' + section + '</div>';
-        this.page.html(html);
+        page.html(html);
         $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
-        this.page.css('line-height', $('#lineHeight').val());
+        page.css('line-height', $('#lineHeight').val());
         var direction = (document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
-        this.page.css('direction', direction);
+        page.css('direction', direction);
+        $('#page').css('direction', direction);
         $('#canvasWrapper').css('direction', direction);
-        this.page[0].style.fontSize = $('#fontSize').val() + 'px';
-        var elements = $('.char', this.page).toArray();
+        page[0].style.fontSize = $('#fontSize').val() + 'px';
+        var elements = $('.char', page).toArray();
         var sb = [];
-        var ptop = this.page[0].offsetTop;
-        var pleft = this.page[0].offsetLeft;
-        var pheight = this.page[0].offsetHeight;
-        var pwidth = this.page[0].offsetWidth;
+        var ptop = page[0].offsetTop;
+        var pleft = page[0].offsetLeft;
+        var pheight = page[0].offsetHeight;
+        var pwidth = page[0].offsetWidth;
         var canvas = document.getElementById('canvas');
         canvas.height = pheight;
         canvas.width = pwidth;
@@ -79,13 +79,12 @@ var SamplePage = (function () {
         context.textBaseline = 'bottom';
         context.fillStyle = 'black';
         var fontpx = parseInt(getComputedStyle(elements[0]).getPropertyValue('font-size'));
-        var pageClasses = this.page[0].getAttribute('class');
+        var pageClasses = page.attr('class');
         context.font = $('#style').val() + ' ' + fontpx + 'px ' + $('#font').val();
         var ishift = parseInt($('#ishift').val());
         var iishift = parseInt($('#iishift').val());
         var iiishift = parseInt($('#iiishift').val());
         var ivshift = parseInt($('#ivshift').val());
-        var pageNum = parseInt($('#pageNum').val());
         for(var i in elements) {
             var el = elements[i];
             var elcontent = parts[el.getAttribute('uid')];
@@ -103,7 +102,7 @@ var SamplePage = (function () {
             sb.push(' ');
             sb.push(pheight - top + ivshift);
             sb.push(' ');
-            sb.push(pageNum);
+            sb.push(pageId);
             sb.push('\n');
             var lleft = direction === 'ltr' ? left : left + width;
             context.fillText(elcontent, lleft, (top + height));
@@ -112,31 +111,50 @@ var SamplePage = (function () {
         var boxes = sb.join('');
         boxes = boxes.replace(/\u200d/g, "");
         $('#boxes').val(boxes);
+        var lang = $('#languageCode').val();
         var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
         var pngData = canvas.toDataURL("image/png");
         pngData = pngData.replace('data:image/png;base64,', '');
-        $.ajax('api/uploadbinary/' + 'LANG.' + fontFileName + '.exp0.png', {
+        $.ajax('api/uploadbinary/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.png', {
             type: 'POST',
             data: pngData,
             dataType: 'text'
         });
         var boxDownload = document.getElementById('downloadBOX');
-        $.ajax('api/uploadtext/' + 'LANG.' + fontFileName + '.exp0.box', {
+        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.box', {
             type: 'POST',
             data: boxes,
             dataType: 'text'
         });
     };
-    return SamplePage;
+    return Main;
 })();
 document.addEventListener('DOMContentLoaded', function () {
     $('#button').click(function () {
-        var t = $('textarea#inputText');
-        var p = $('div#page');
-        p.removeClass('nazli arial tahoma').addClass($('#font').val());
-        p.removeClass('bold italic').addClass($('#style').val());
-        var page = new SamplePage(p);
-        page.insert(t.val());
+        $('#page').removeClass('bold italic').addClass($('#style').val());
+        var main = new Main();
+        var paragraphs = $('#inputText').val().split('\n');
+        var limit = $("#limit").val() * 1000;
+        var page = [];
+        var size = 0;
+        var pageId = 0;
+        for(var i = 0; i < paragraphs.length; i++) {
+            console.log(size, limit, paragraphs, page);
+            if(size < limit) {
+                page.push(paragraphs[i]);
+                size = size + paragraphs[i].length;
+            }
+            if(size > limit) {
+                main.insert(page.join('\n'), pageId);
+                pageId++;
+                page = [];
+                size = 0;
+            }
+            if(i + 1 === paragraphs.length && size !== 0) {
+                main.insert(page.join('\n'), pageId);
+                break;
+            }
+        }
     }).click();
     $('#rtlMode').change(function () {
         var direction = (document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
