@@ -80,6 +80,7 @@ class SamplePage {
         var direction = (<HTMLInputElement>document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
 
         this.page.css('direction', direction);
+        $('#page').css('direction', direction);
         $('#canvasWrapper').css('direction', direction);
 
         this.page[0].style.fontSize = $('#fontSize').val() + 'px';

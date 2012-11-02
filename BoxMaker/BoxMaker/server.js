@@ -32,6 +32,9 @@ http.createServer(function (request, response) {
                 if (isBinary) {
                     data = new Buffer(data, 'base64');
                 }
+                if (!path.existsSync('./output')) {
+                    fs.mkdirSync('./output');
+                }
                 fs.writeFile(targetPath, data, function (err) {
                     if (err) {
                         console.log(err);
@@ -42,7 +45,7 @@ http.createServer(function (request, response) {
                     'Content-Type' : 'text/plain'
                 });
                 response.end();
-                console.log('Uploaded on ' + targetPath);
+                console.log('A file uploaded on ' + targetPath);
             });
             return;
         }
