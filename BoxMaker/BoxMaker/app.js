@@ -133,7 +133,8 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#button').click(function () {
         $('#page').removeClass('bold italic').addClass($('#style').val());
         var main = new Main();
-        var paragraphs = $('#inputText').val().split('\n');
+        var splitter = ' ';
+        var paragraphs = $('#inputText').val().split(' ');
         var limit = $("#limit").val() * 1000;
         var page = [];
         var size = 0;
@@ -145,13 +146,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 size = size + paragraphs[i].length;
             }
             if(size > limit) {
-                main.insert(page.join('\n'), pageId);
+                main.insert(page.join(' '), pageId);
                 pageId++;
                 page = [];
                 size = 0;
             }
             if(i + 1 === paragraphs.length && size !== 0) {
-                main.insert(page.join('\n'), pageId);
+                main.insert(page.join(' '), pageId);
                 break;
             }
         }

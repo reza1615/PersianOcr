@@ -167,7 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         var main = new Main();
 
-        var paragraphs: string[] = $('#inputText').val().split('\n');
+        var splitter = ' ';
+        var paragraphs: string[] = $('#inputText').val().split(' ');
         var limit: number = $("#limit").val() * 1000;
 
         var page: string[] = [];
@@ -180,13 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 size = size + paragraphs[i].length;
             }
             if (size > limit) {
-                main.insert(page.join('\n'), pageId);
+                main.insert(page.join(' '), pageId);
                 pageId++;
                 page = [];
                 size = 0;
             }
             if (i + 1 === paragraphs.length && size !== 0) {
-                main.insert(page.join('\n'), pageId);
+                main.insert(page.join(' '), pageId);
                 break;
             }
         }
