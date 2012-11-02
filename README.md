@@ -4,11 +4,11 @@ In this Project we try to add Persian supporting  for [tesseract-ocr](http://cod
 
 **Tools**
 
-For making box file in a fast way you can use [Boxmaker](https://github.com/reza1615/PersianOcr/blob/master/BoxMaker-en.zip)
+For making box file in a fast way you can use [Boxmaker](http://reza1615.github.com/index.html)
 
 **RTL Languages**
 
-For rtl (Right to Left) Languages after making unicharset For supporting rtl in [tesseract-ocr](http://code.google.com/p/tesseract-ocr/)  you can run [convertor.py](https://github.com/reza1615/PersianOcr/blob/master/convertor.py). this code needs python
+For rtl (Right to Left) Languages after making unicharset For supporting rtl in [tesseract-ocr](http://code.google.com/p/tesseract-ocr/)  you can run [convert unicharset to RTL.py](https://github.com/downloads/reza1615/PersianOcr/Convertor%20unicharset%20to%20RTL.py). this code needs python
 
 <div dir="rtl">
 **به پروژه OCR Farsi خوش آمدید!**
@@ -21,11 +21,11 @@ For rtl (Right to Left) Languages after making unicharset For supporting rtl in 
 نشانی: https://github.com/reza1615/PersianOcr/wiki
 
 برای ساخت فایل باکس به روش سریع از ابزار 
-[جعبه ساز](https://github.com/reza1615/PersianOcr/blob/master/BoxMaker-per.zip)
+[جعبه ساز](http://reza1615.github.com/index2.html)
 استفاده نمائید
 
 برای اصلاح راست به چپ بعد از ساخت فایل unicharset 
 کد 
-[convertor.py](https://github.com/reza1615/PersianOcr/blob/master/convertor.py)
+[convert unicharset to RTL.py](https://github.com/downloads/reza1615/PersianOcr/Convertor%20unicharset%20to%20RTL.py)
 را اجرا نمائید توجه داشته باشید که برای اجرای فایل باید پایتون بر روی سیستم شما نصب باشد.
 
