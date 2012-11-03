@@ -6,7 +6,6 @@
     <title>BoxMaker</title>
     <link rel="stylesheet" href="app.css" type="text/css" />
     <script src="jquery-1.8.2.min.js"></script>
-    <script src="canvas2image.js"></script>
     <script src="app.js"></script>
 </head>
 <body>
@@ -14,7 +13,17 @@
         <h1>BoxMaker</h1>
 
         <div id="content">
-            <div class="label">The sample text:</div>
+
+            <p>This tool will help you to making box and image file. You should write your text in box below after pressing upload you will have box in the second box filed.</p>
+            <h2>Some Important points:</h2>
+            <ol>
+                <li>We suggest you to use chrome as a browser because it is faster that the others and it's images are sharper than Firefox 16 or IE9.</li>
+                <li>For image if your text is more that 2000 word this tool can not give you directly image file and you should use screen capture extensions(Google's extension) that is works for texts less than 10K words</li>
+                <li>Before doing large texts please test tesseract-ocr with small texts (box, Image) with different font size because it only has good result for specific font size and it's warnings are different for different fonts!</li>
+                <li>should be 400-450 Dpi so you should Change your Image's Dpi & size (cm) <b>without changing total pixel size number!</b> (in Photoshop > image size). Re-save your file with AcdSee to have compatible Tiff File!</li>
+            </ol>
+
+            <h2>The text:</h2>
             <textarea id="inputText">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</textarea>
             <br />
             <div class="label">Font:</div>
@@ -67,8 +76,6 @@
             <div id="canvasWrapper">
                 <canvas id="canvas"></canvas>
             </div>
-
-            <div id="imagePlaceHolder"></div>
         </div>
     </div>
 </body>

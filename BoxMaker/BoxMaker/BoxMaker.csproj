@@ -21,7 +21,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.css" />
-    <Content Include="canvas2image.js" />
     <Content Include="default.htm" />
     <Content Include="app.js">
       <DependentUpon>app.ts</DependentUpon>

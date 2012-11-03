@@ -24,7 +24,6 @@ var SamplePage = (function () {
         var id = 0;
         var nextMustJoined = false;
         sb.push('<p>');
-        var extraSpace = ($('#extraSpace')[0]).checked ? ' ' : '';
         var letterByLetter = ($('#letterByLetter')[0]).checked;
         for(var i = 0; i < chars.length; i++) {
             var char = chars[i];
@@ -62,7 +61,6 @@ var SamplePage = (function () {
                     }
                     isb.push('</span>');
                     sb.push(isb.join(''));
-                    sb.push(extraSpace);
                 }
             }
         }
@@ -73,8 +71,6 @@ var SamplePage = (function () {
         $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
         this.page.css('line-height', $('#lineHeight').val() + 'px');
         var direction = (document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
-        $('body').attr('dir', direction);
-        $('#wrapper').css('direction', 'ltr');
         this.page.css('direction', direction);
         $('#canvasWrapper').css('direction', direction);
         this.page[0].style.fontSize = $('#fontSize').val() + 'px';
@@ -138,13 +134,24 @@ var SamplePage = (function () {
         $('#boxes').val(boxes);
         var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
         if(!huge) {
+            var pngData = canvas.toDataURL("image/png");
             var pngDownload = document.getElementById('downloadPNG');
-            pngDownload.setAttribute('download', "LANG." + fontFileName + ".exp0.png");
-            pngDownload.setAttribute('href', canvas.toDataURL("image/png"));
+            pngDownload.setAttribute('download', 'LANG.' + fontFileName + '.exp0.png');
+            pngDownload.setAttribute('href', pngData);
+            pngData = pngData.replace('data:image/png;base64,', '');
+            $.ajax('api/uploadbinary/' + 'LANG.' + fontFileName + '.exp0.png', {
+                type: 'POST',
+                data: pngData,
+                dataType: 'text'
+            });
             var boxDownload = document.getElementById('downloadBOX');
-            boxDownload.setAttribute('download', "LANG." + fontFileName + ".exp0.box");
-            boxDownload.setAttribute('href', 'data:text/plain;charset=utf-8,' + boxes.replace(/\n/g, "%0A"));
-            $('#imagePlaceHolder').empty().append(Canvas2Image.convertToImage(canvas));
+            boxDownload.setAttribute('download', 'LANG.' + fontFileName + '.exp0.box');
+            boxDownload.setAttribute('href', 'data:text/plain;charset=utf-8,' + boxes.replace(/\n/g, '%0A'));
+            $.ajax('api/uploadtext/' + 'LANG.' + fontFileName + '.exp0.box', {
+                type: 'POST',
+                data: boxes,
+                dataType: 'text'
+            });
         }
     };
     return SamplePage;
@@ -161,5 +168,5 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#rtlMode').change(function () {
         var direction = (document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
         $('#inputText').css('direction', direction);
-    });
+    }).change();
 });

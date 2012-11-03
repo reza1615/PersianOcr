@@ -1,6 +1,6 @@
 /// <reference path="jquery.d.ts" />
 declare var html2canvas;
-declare var Canvas2Image;
+declare var unescape;
 var zwnj = '\u200c';
 var alefba = 'آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئيك';
 var harekat = 'ًٌٍَُِّْٔ';
@@ -30,7 +30,6 @@ class SamplePage {
         var id = 0;
         var nextMustJoined = false;
         sb.push('<p>');
-        var extraSpace = (<HTMLInputElement>$('#extraSpace')[0]).checked ? ' ' : '';
         var letterByLetter = (<HTMLInputElement>$('#letterByLetter')[0]).checked;
         for (var i = 0; i < chars.length; i++) {
             var char = chars[i];
@@ -70,24 +69,18 @@ class SamplePage {
                 isb.push('</span>');
 
                 sb.push(isb.join(''));
-                sb.push(extraSpace);
             }
         }
         sb.push('</p>');
         var section = sb.join('');
 
         var html = '<div>' + section + '</div>';
-        
+
         this.page.html(html);
         $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
         this.page.css('line-height', $('#lineHeight').val() + 'px');
-        
-        var direction = (<HTMLInputElement>document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
 
-        // CRAZY HACK
-        $('body').attr('dir', direction);
-        $('#wrapper').css('direction', 'ltr');
-        //
+        var direction = (<HTMLInputElement>document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
 
         this.page.css('direction', direction);
         $('#canvasWrapper').css('direction', direction);
@@ -162,21 +155,34 @@ class SamplePage {
         var boxes = sb.join('');
         if ((<HTMLInputElement>$('#removeZwj')[0]).checked)
             boxes = boxes.replace(/\u200d/g, "");
-        
+
         $('#boxes').val(boxes);
 
         var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
         if (!huge) {
+            var pngData = canvas.toDataURL("image/png");
             var pngDownload = document.getElementById('downloadPNG');
-            pngDownload.setAttribute('download', "LANG." + fontFileName + ".exp0.png");
-            pngDownload.setAttribute('href', canvas.toDataURL("image/png"));
+            pngDownload.setAttribute('download', 'LANG.' + fontFileName + '.exp0.png');
+            pngDownload.setAttribute('href', pngData);
+
+            pngData = pngData.replace('data:image/png;base64,', '');
+            $.ajax('api/uploadbinary/' + 'LANG.' + fontFileName + '.exp0.png', {
+                type: 'POST',
+                data: pngData,
+                dataType: 'text'
+            });
 
             var boxDownload = document.getElementById('downloadBOX');
-            boxDownload.setAttribute('download', "LANG." + fontFileName + ".exp0.box");
-            boxDownload.setAttribute('href', 'data:text/plain;charset=utf-8,' + boxes.replace(/\n/g, "%0A"));
+            boxDownload.setAttribute('download', 'LANG.' + fontFileName + '.exp0.box');
+            boxDownload.setAttribute('href', 'data:text/plain;charset=utf-8,' + boxes.replace(/\n/g, '%0A'));
 
-            $('#imagePlaceHolder').empty().append(Canvas2Image.convertToImage(canvas));
+            $.ajax('api/uploadtext/' + 'LANG.' + fontFileName + '.exp0.box', {
+                type: 'POST',
+                data: boxes,
+                dataType: 'text'
+            });
         }
+
     }
 
 }
@@ -192,9 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
         var page = new SamplePage(p);
         page.insert(t.val());
     }).click();
-    
+
     $('#rtlMode').change(() => {
         var direction = (<HTMLInputElement>document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
         $('#inputText').css('direction', direction);
-    });
+    }).change();
 });
