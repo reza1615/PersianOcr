@@ -63,7 +63,7 @@ class Main {
                 sb.push(isb.join(''));
             }
         }
-        sb.push('</p>');
+        sb.push('</p><br />');
         var section = sb.join('');
 
         var html = '<div>' + section + '</div>';
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (var i = 0; i < parts.length; i++) {
             if (size <= limit) {
                 page.push(parts[i]);
-                size = size + parts[i].length;
+                size = size + parts[i].length + 1;
             }
             if (size > limit || (i + 1 === parts.length && size !== 0)) {
                 main.insert(page.join(' '), pageId);

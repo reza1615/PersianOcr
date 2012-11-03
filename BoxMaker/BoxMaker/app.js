@@ -53,7 +53,7 @@ var Main = (function () {
                 }
             }
         }
-        sb.push('</p>');
+        sb.push('</p><br />');
         var section = sb.join('');
         var html = '<div>' + section + '</div>';
         page.html(html);
@@ -120,7 +120,7 @@ var Main = (function () {
             data: pngData,
             dataType: 'text'
         });
-        $.ajax('api/uploadtext/' + pageId +'.box', {
+        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.box', {
             type: 'POST',
             data: boxes,
             dataType: 'text'
@@ -140,10 +140,9 @@ document.addEventListener('DOMContentLoaded', function () {
         var pageId = 0;
         var results = [];
         for(var i = 0; i < parts.length; i++) {
-            console.log(size, limit, i);
             if(size <= limit) {
                 page.push(parts[i]);
-                size = size + parts[i].length;
+                size = size + parts[i].length + 1;
             }
             if(size > limit || (i + 1 === parts.length && size !== 0)) {
                 main.insert(page.join(' '), pageId);
