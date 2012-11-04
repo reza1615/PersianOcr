@@ -124,6 +124,11 @@ var Main = (function () {
             data: boxes,
             dataType: 'text'
         });
+        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.txt', {
+            type: 'POST',
+            data: input,
+            dataType: 'text'
+        });
     };
     return Main;
 })();
