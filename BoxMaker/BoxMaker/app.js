@@ -124,13 +124,13 @@ var Main = (function () {
             data: pngData,
             dataType: 'text'
         });
-        $.ajax('api/uploadtext/' + pagestr +'.box', {
+        $.ajax('api/uploadtext/' + pidStr +'.box', {
              type: 'POST',
             data: boxes,
             dataType: 'text'
         });
 
-        $.ajax('api/uploadtext/' + pagestr + '.txt', {
+        $.ajax('api/uploadtext/' + pidStr + '.txt', {
             type: 'POST',
             data: input,
             dataType: 'text'
