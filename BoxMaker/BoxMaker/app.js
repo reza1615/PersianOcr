@@ -12,6 +12,10 @@ function isJoinableToNext(char) {
 function isHarekat(char) {
     return harekat.indexOf(char) !== -1;
 }
+function zeroPad(num, places) {
+    var zero = places - num.toString().length + 1;
+    return Array(+(zero > 0 && zero)).join("0") + num;
+}
 var Main = (function () {
     function Main() { }
     Main.prototype.insert = function (input, pageId) {
@@ -114,17 +118,18 @@ var Main = (function () {
         var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
         var pngData = canvas.toDataURL("image/png");
         pngData = pngData.replace('data:image/png;base64,', '');
-        $.ajax('api/uploadbinary/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.png', {
+        var pidStr = zeroPad(pageId, 2);
+        $.ajax('api/uploadbinary/' + pidStr + '.' + lang + '.' + fontFileName + '.exp0.png', {
             type: 'POST',
             data: pngData,
             dataType: 'text'
         });
-        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.box', {
+        $.ajax('api/uploadtext/' + pidStr + '.' + lang + '.' + fontFileName + '.exp0.box', {
             type: 'POST',
             data: boxes,
             dataType: 'text'
         });
-        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.txt', {
+        $.ajax('api/uploadtext/' + pidStr + '.' + lang + '.' + fontFileName + '.exp0.txt', {
             type: 'POST',
             data: input,
             dataType: 'text'
