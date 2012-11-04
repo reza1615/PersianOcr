@@ -119,12 +119,12 @@ var Main = (function () {
             data: pngData,
             dataType: 'text'
         });
-        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.box', {
+        $.ajax('api/uploadtext/' + pageId +'.box', {
             type: 'POST',
             data: boxes,
             dataType: 'text'
         });
-        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.txt', {
+        $.ajax('api/uploadtext/' + pageId + '.txt', {
             type: 'POST',
             data: input,
             dataType: 'text'
