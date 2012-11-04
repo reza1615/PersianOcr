@@ -27,7 +27,7 @@ var Main = (function () {
         page.style.fontSize = $('#fontSize').val() + 'px';
         var direction = (document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
         page.style.direction = direction;
-        document.getElementById('#canvasWrapper').style.direction = direction;
+        document.getElementById('canvasWrapper').style.direction = direction;
         sb.push('<p>');
         for(var i = 0; i < chars.length; i++) {
             var char = chars[i];
