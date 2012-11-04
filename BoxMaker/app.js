@@ -92,7 +92,7 @@ var Main = (function () {
             var el = elements[i];
             var elcontent = parts[el.getAttribute('uid')];
             if(elcontent.indexOf('�') !== -1) {
-                break;
+                continue;
             }
             sb.push(elcontent);
             sb.push(' ');

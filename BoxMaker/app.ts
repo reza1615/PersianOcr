@@ -116,7 +116,7 @@ class Main {
             var elcontent = parts[el.getAttribute('uid')];
             // HACK!
             if (elcontent.indexOf('�') !== -1)
-                break;
+                continue;
 
             sb.push(elcontent);
             sb.push(' ');
