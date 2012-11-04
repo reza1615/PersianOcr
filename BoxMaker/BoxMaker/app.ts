@@ -14,6 +14,12 @@ function isHarekat(char: string) {
     return harekat.indexOf(char) !== -1;
 }
 
+// http://stackoverflow.com/a/2998874
+function zeroPad(num: number, places: number) {
+    var zero = places - num.toString().length + 1;
+    return Array(+(zero > 0 && zero)).join("0") + num;
+}
+
 class Main {
     insert(input: string, pageId: number) {
         var page = document.getElementById('page');
@@ -22,7 +28,7 @@ class Main {
         var sb = [];
         var id = 0;
         var nextMustJoined = false;
-        
+
         $('head').append('<style>.char { margin: 0 ' + $('#letterSpacing').val() + 'px; }</style>');
         page.style.lineHeight = $('#lineHeight').val();
         page.style.fontSize = $('#fontSize').val() + 'px';
@@ -77,7 +83,7 @@ class Main {
 
         var html = '<div>' + section + '</div>';
         $(page).html(html);
-        
+
         var elements = $('.char', page).toArray();
         var sb = [];
 
@@ -143,19 +149,20 @@ class Main {
         var pngData = canvas.toDataURL("image/png");
         pngData = pngData.replace('data:image/png;base64,', '');
 
-        $.ajax('api/uploadbinary/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.png', {
+        var pidStr = zeroPad(pageId, 2);
+        $.ajax('api/uploadbinary/' + pidStr + '.' + lang + '.' + fontFileName + '.exp0.png', {
             type: 'POST',
             data: pngData,
             dataType: 'text'
         });
-        
-        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.box', {
+
+        $.ajax('api/uploadtext/' + pidStr + '.' + lang + '.' + fontFileName + '.exp0.box', {
             type: 'POST',
             data: boxes,
             dataType: 'text'
         });
 
-        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.txt', {
+        $.ajax('api/uploadtext/' + pidStr + '.' + lang + '.' + fontFileName + '.exp0.txt', {
             type: 'POST',
             data: input,
             dataType: 'text'
