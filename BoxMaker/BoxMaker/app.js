@@ -124,20 +124,13 @@ var Main = (function () {
             data: pngData,
             dataType: 'text'
         });
-<<<<<<< HEAD
         $.ajax('api/uploadtext/' + pageId +'.box', {
-=======
-        $.ajax('api/uploadtext/' + pidStr + '.' + lang + '.' + fontFileName + '.exp0.box', {
->>>>>>> origin/master
-            type: 'POST',
+             type: 'POST',
             data: boxes,
             dataType: 'text'
         });
-<<<<<<< HEAD
+
         $.ajax('api/uploadtext/' + pageId + '.txt', {
-=======
-        $.ajax('api/uploadtext/' + pidStr + '.' + lang + '.' + fontFileName + '.exp0.txt', {
->>>>>>> origin/master
             type: 'POST',
             data: input,
             dataType: 'text'
