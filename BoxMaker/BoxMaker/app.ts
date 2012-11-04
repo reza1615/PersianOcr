@@ -1,8 +1,8 @@
 /// <reference path="jquery.d.ts" />
 var zwnj = '\u200c';
-var alefba = 'آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئيك';
+var alefba = 'آاأإةبپتثجچحخدذرزژسشصضطظعغفقکگلمنوهؤئكيىی';
 var harekat = 'ًٌٍَُِّْٔ';
-var notJoinableToNext = 'ةآأإادذرزژو';
+var notJoinableToNext = 'ةآأإادذرزژوؤ';
 var zwj = '\u200d';
 function isAlefba(char: string) {
     return alefba.indexOf(char) !== -1;
@@ -69,7 +69,8 @@ class Main {
         var html = '<div>' + section + '</div>';
 
         page.html(html);
-        $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
+        
+        $('head').append('<style>.char { margin: 0 ' + $('#letterSpacing').val() + 'px; }</style>');
         page.css('line-height', $('#lineHeight').val());
 
         var direction = (<HTMLInputElement>document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
