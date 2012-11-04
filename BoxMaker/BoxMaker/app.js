@@ -1,7 +1,7 @@
 var zwnj = '\u200c';
-var alefba = 'آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهیؤئيك';
+var alefba = 'آاأإةبپتثجچحخدذرزژسشصضطظعغفقکگلمنوهؤئكيىی';
 var harekat = 'ًٌٍَُِّْٔ';
-var notJoinableToNext = 'ةآأإادذرزژو';
+var notJoinableToNext = 'ةآأإادذرزژوؤ';
 var zwj = '\u200d';
 function isAlefba(char) {
     return alefba.indexOf(char) !== -1;
@@ -15,13 +15,19 @@ function isHarekat(char) {
 var Main = (function () {
     function Main() { }
     Main.prototype.insert = function (input, pageId) {
-        var page = $('#page');
+        var page = document.getElementById('page');
         var chars = input;
         var parts = {
         };
         var sb = [];
         var id = 0;
         var nextMustJoined = false;
+        $('head').append('<style>.char { margin: 0 ' + $('#letterSpacing').val() + 'px; }</style>');
+        page.style.lineHeight = $('#lineHeight').val();
+        page.style.fontSize = $('#fontSize').val() + 'px';
+        var direction = (document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
+        page.style.direction = direction;
+        document.getElementById('#canvasWrapper').style.direction = direction;
         sb.push('<p>');
         for(var i = 0; i < chars.length; i++) {
             var char = chars[i];
@@ -56,20 +62,13 @@ var Main = (function () {
         sb.push('</p><br />');
         var section = sb.join('');
         var html = '<div>' + section + '</div>';
-        page.html(html);
-        $('.char').css('margin-left', $('#letterSpacing').val() + 'px');
-        page.css('line-height', $('#lineHeight').val());
-        var direction = (document.getElementById('rtlMode')).checked ? 'rtl' : 'ltr';
-        page.css('direction', direction);
-        $('#page').css('direction', direction);
-        $('#canvasWrapper').css('direction', direction);
-        page[0].style.fontSize = $('#fontSize').val() + 'px';
+        $(page).html(html);
         var elements = $('.char', page).toArray();
         var sb = [];
-        var ptop = page[0].offsetTop;
-        var pleft = page[0].offsetLeft;
-        var pheight = page[0].offsetHeight;
-        var pwidth = page[0].offsetWidth;
+        var ptop = page.offsetTop;
+        var pleft = page.offsetLeft;
+        var pheight = page.offsetHeight;
+        var pwidth = page.offsetWidth;
         var canvas = document.getElementById('canvas');
         canvas.height = pheight;
         canvas.width = pwidth;
@@ -79,7 +78,7 @@ var Main = (function () {
         context.textBaseline = 'bottom';
         context.fillStyle = 'black';
         var fontpx = parseInt(getComputedStyle(elements[0]).getPropertyValue('font-size'));
-        var pageClasses = page.attr('class');
+        var pageClasses = page.getAttribute('class');
         context.font = $('#style').val() + ' ' + fontpx + 'px ' + $('#font').val();
         var ishift = parseInt($('#ishift').val());
         var iishift = parseInt($('#iishift').val());
@@ -120,7 +119,7 @@ var Main = (function () {
             data: pngData,
             dataType: 'text'
         });
-        $.ajax('api/uploadtext/' + pageId +'.box', {
+        $.ajax('api/uploadtext/' + pageId + '.' + lang + '.' + fontFileName + '.exp0.box', {
             type: 'POST',
             data: boxes,
             dataType: 'text'
