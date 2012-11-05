@@ -125,7 +125,7 @@ var Main = (function () {
         }
         context.save();
         var boxes = sb.join('');
-        if(($('#removeZwj')[0]).checked) {
+        if(!($('#notRemoveZwj')[0]).checked) {
             boxes = boxes.replace(/\u200d/g, "");
         }
         $('#boxes').val(boxes);
