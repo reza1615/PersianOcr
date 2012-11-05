@@ -33,6 +33,7 @@ var Main = (function () {
         page.style.direction = direction;
         document.getElementById('canvasWrapper').style.direction = direction;
         sb.push('<p>');
+        var letterByLetter = ($('#letterByLetter')[0]).checked;
         for(var i = 0; i < chars.length; i++) {
             var char = chars[i];
             var nextChar = chars[i + 1];
@@ -44,11 +45,20 @@ var Main = (function () {
                 } else {
                     var isb = [];
                     id++;
-                    isb.push('<span class="char" uid="' + id + '">');
+                    isb.push('<span class="char" data-id="' + id + '">');
                     isb.push(char);
                     parts[id] = char;
                     while(true) {
                         if((isHarekat(nextChar)) || (isJoinableToNext(char) && isAlefba(nextChar))) {
+                            if(letterByLetter && !isHarekat(nextChar)) {
+                                isb.push(zwj);
+                                isb.push('</span>');
+                                parts[id] = parts[id] + zwj;
+                                id++;
+                                isb.push('<span class="char" data-id="' + id + '">');
+                                isb.push(zwj);
+                                parts[id] = zwj;
+                            }
                             isb.push(nextChar);
                             parts[id] = parts[id] + nextChar;
                             i++;
@@ -90,7 +100,7 @@ var Main = (function () {
         var ivshift = parseInt($('#ivshift').val());
         for(var i in elements) {
             var el = elements[i];
-            var elcontent = parts[el.getAttribute('uid')];
+            var elcontent = parts[el.getAttribute('data-id')];
             if(elcontent.indexOf('�') !== -1) {
                 continue;
             }
@@ -115,10 +125,12 @@ var Main = (function () {
         }
         context.save();
         var boxes = sb.join('');
-        boxes = boxes.replace(/\u200d/g, "");
+        if(($('#removeZwj')[0]).checked) {
+            boxes = boxes.replace(/\u200d/g, "");
+        }
         $('#boxes').val(boxes);
         var lang = $('#languageCode').val();
-        var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
+        var fontFileName = ($('#font').val() + $('#style').val()).replace(/ /g, "");
         var pngData = canvas.toDataURL("image/png");
         pngData = pngData.replace('data:image/png;base64,', '');
         var pidStr = zeroPad(pageId, 2);

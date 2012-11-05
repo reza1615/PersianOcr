@@ -38,6 +38,7 @@ class Main {
         document.getElementById('canvasWrapper').style.direction = direction;
 
         sb.push('<p>');
+        var letterByLetter = (<HTMLInputElement>$('#letterByLetter')[0]).checked;
         for (var i = 0; i < chars.length; i++) {
             var char = chars[i];
             var nextChar = chars[i + 1];
@@ -49,21 +50,21 @@ class Main {
             } else {
                 var isb = [];
                 id++;
-                isb.push('<span class="char" uid="' + id + '">');
+                isb.push('<span class="char" data-id="' + id + '">');
                 isb.push(char);
                 parts[id] = char;
                 while (true) {
                     if ((isHarekat(nextChar)) || (isJoinableToNext(char) && isAlefba(nextChar))) {
-                        /*if (letterByLetter && !isHarekat(nextChar)) {
+                        if (letterByLetter && !isHarekat(nextChar)) {
                             isb.push(zwj);
                             isb.push('</span>');
                             parts[id] = parts[id] + zwj;
 
                             id++;
-                            isb.push('<span class="char" uid="' + id + '">');
+                            isb.push('<span class="char" data-id="' + id + '">');
                             isb.push(zwj);
                             parts[id] = zwj;
-                        } */
+                        }
                         isb.push(nextChar);
                         parts[id] = parts[id] + nextChar;
                         i++;
@@ -113,7 +114,7 @@ class Main {
 
         for (var i in elements) {
             var el = <HTMLElement>elements[i];
-            var elcontent = parts[el.getAttribute('uid')];
+            var elcontent = parts[el.getAttribute('data-id')];
             // HACK!
             if (elcontent.indexOf('�') !== -1)
                 continue;
@@ -142,13 +143,14 @@ class Main {
         }
         context.save();
         var boxes = sb.join('');
-        boxes = boxes.replace(/\u200d/g, "");
+        if (!(<HTMLInputElement>$('#notRemoveZwj')[0]).checked)
+            boxes = boxes.replace(/\u200d/g, "");
 
         $('#boxes').val(boxes);
 
         var lang = $('#languageCode').val();
 
-        var fontFileName = $('#font').val() + $('#style').val().replace(" ", "");
+        var fontFileName = ($('#font').val() + $('#style').val()).replace(/ /g, "");
         var pngData = canvas.toDataURL("image/png");
         pngData = pngData.replace('data:image/png;base64,', '');
 
