@@ -32,7 +32,7 @@ http.createServer(function (request, response) {
                 if (isBinary) {
                     data = new Buffer(data, 'base64');
                 }
-                if (!path.existsSync('./output')) {
+                if (!fs.existsSync('./output')) {
                     fs.mkdirSync('./output');
                 }
                 fs.writeFile(targetPath, data, function (err) {
